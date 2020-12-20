@@ -11,6 +11,7 @@ FROM alpine:latest
 WORKDIR /root/
 COPY --from=build /tweego/main .
 COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 RUN mkdir /storyformats /input /output
 ENV TWEEGO_PATH="/storyformats"
 ENV TWEEGO_OUTFILE="index.html"
