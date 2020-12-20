@@ -16,6 +16,24 @@ In order to run this container you'll need docker installed.
 
 ### Usage
 
+#### Docker Compose
+
+Use docker compose if you can, there are some known issues with commandline run not attaching the volumes properly.
+
+```yaml
+version: "3.9"
+services:
+  tweego:
+    image: tweedevs/tweego-docker
+    environment: 
+      - TWEEGO_OUTFILE=name_of_the_output.html
+      #- TWEEGO_WATCH=will_trigger_if_set_to_anything
+    volumes: 
+      - {path_to_your_storyformats}:/storyformats
+      - {path_to_your_project_src}:/input
+      - {path_to_where_you_want_the_file}:/output
+```
+
 #### Container Parameters
 
 List the different parameters available to your container
@@ -40,24 +58,10 @@ Show how to get a shell started in your container too
 docker run tweedevs/tweego-docker:v1.0.0 sh
 ```
 
-#### Docker Compose
-
-```yaml
-version: "3.9"
-services:
-  tweego:
-    build: .
-    environment: 
-      - TWEEGO_OUTFILE=name_of_the_output.html
-    volumes: 
-      - {path_to_your_storyformats}:/storyformats
-      - {path_to_your_project_src}:/input
-      - {path_to_where_you_want_the_file}:/output
-```
-
 #### Environment Variables
 
 * `TWEEGO_OUTFILE` - The you want applied to tweegos output file. Default is `index.html`
+* `TWEEGO_WATCH` - A way to turn on tweego watch functionality. Default is not set, when set to anything it will trigger.
 
 #### Volumes
 
