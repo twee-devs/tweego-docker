@@ -1,12 +1,12 @@
-# tweego-docker
+# tweedevs/tweego
 
-A docker implementation for [Tweego](https://github.com/tmedwards/tweego), the command line compiler for Twine/Twee story formats, written in Go.
+[Tweego](https://github.com/tmedwards/tweego), is a command line compiler for Twine/Twee story formats, written in Go.
 
-## Getting Started
+## Supported Architectures
 
-These instructions will cover usage information and for the docker container 
+Our images support multiple architectures such as x86-64, arm64 and armhf. We utilise the docker manifest for multi-platform awareness. More information is available from docker here and our announcement here.
 
-### Prerequisities
+## Prerequisities
 
 In order to run this container you'll need docker installed.
 
@@ -14,70 +14,114 @@ In order to run this container you'll need docker installed.
 * [OS X](https://docs.docker.com/mac/started/)
 * [Linux](https://docs.docker.com/linux/started/)
 
-### Usage
+## docker-compose
 
-#### Docker Compose
-
-Use docker compose if you can, there are some known issues with commandline run not attaching the volumes properly.
+Compatible with [docker-compose](https://docs.docker.com/compose/gettingstarted/) v2 schemas.
 
 ```yaml
-version: "3.9"
+version: "2.1"
 services:
   tweego:
-    image: tweedevs/tweego-docker
+    image: tweedevs/tweego
+    container_name: tweego
     environment: 
-      - TWEEGO_OUTFILE=name_of_the_output.html
-      #- TWEEGO_WATCH=will_trigger_if_set_to_anything
+      # Optional: Default is index.html
+      - TWEEGO_OUTFILE=index.html
+      # Optional: You can add any additional option https://www.motoslave.net/tweego/docs/#usage-options
+      - TWEEGO_OPTIONS=-l --log-files
     volumes: 
-      - {path_to_your_storyformats}:/storyformats
-      - {path_to_your_project_src}:/input
-      - {path_to_where_you_want_the_file}:/output
+      # All volumes are required. There are NO story formats included.
+      - path_to_your_project_src:/input
+      - path_to_where_you_want_the_file:/output
+      - path_to_your_storyformats:/storyformats
 ```
 
-#### Container Parameters
-
-List the different parameters available to your container
+## docker run
 
 ```shell
-docker run tweedevs/tweego-docker:v1.0.0 parameters
+#Linux
+docker run -it -rm \
+  -e TWEEGO_FILE=your_file_name.html \
+  -v your_path_to_story_formats:/storyformats \
+  -v your_path_to_the_twee_files:/input \
+  -v your_path_to_the_where_you_want_the_result:/output \
+  tweedevs/tweego # You can include options here to pass to tweego
+```
+```powershell
+# Windows Powershell
+docker run -it -rm `
+  -e TWEEGO_OUTFILE=your_file_name.html `
+  -v your_path_to_story_formats:/storyformats `
+  -v your_path_to_the_twee_files:/input `
+  -v your_path_to_the_where_you_want_the_result:/output `
+  tweedevs/tweego
 ```
 
-One example per permutation 
+### Getting into the shell
+
+Get a shell started in the container:
 
 ```shell
-docker run tweedevs/tweego-docker:v1.0.0 \
-    -e TWEEGO_OUTFILE=your_file_name.html \
-    -v <your_path_to_story_formats>:/storyformats \
-    -v <your_path_to_the_twee_files>:/input \
-    -v <your_path_to_the_where_you_want_the_result>:/output
+docker run -it -rm --entrypoint /bin/sh tweedevs/tweego
 ```
 
-Show how to get a shell started in your container too
+### Environment Variables
 
-```shell
-docker run tweedevs/tweego-docker:v1.0.0 sh
-```
+* `TWEEGO_FILE` - The you want applied to tweegos output file. Default is `index.html`
+* `TWEEGO_OPTIONS` - Enables passing options to tweego. Deafult is blank.
 
-#### Environment Variables
-
-* `TWEEGO_OUTFILE` - The you want applied to tweegos output file. Default is `index.html`
-* `TWEEGO_WATCH` - A way to turn on tweego watch functionality. Default is not set, when set to anything it will trigger.
-
-#### Volumes
+### Volumes
 
 * `/storyformats` - Story format location, to learn more [the wiki](https://twinery.org/wiki/story_format?s[]=story&s[]=formats) or [Twine Lab](https://twinelab.net/twine-resources/#/?id=story-formats), [format-catalog](https://github.com/tweecode/format-catalog) is a project that works on cataloguing them all.
+* `/input` - where you have the source .twee/.tw files you want to compile.
+* `/output` - where you want the file to saved to.
 
-#### Useful File Locations
+You may want to create volumes if you're devoloping locally to shorten the command:
 
-* `/root/tweego` - tweego executable location.
-  
-## Built With
+```shell
+#Linux
+docker volume create --driver local \
+  --opt type=none \
+  --opt device=your_path_to_story_formats \
+  --opt o=bind \
+  storyformats
+docker volume create --driver local \
+  --opt type=none \
+  --opt device=your_path_to_the_twee_files \
+  --opt o=bind \
+  input
+docker volume create --driver local \
+  --opt type=none \
+  --opt device=your_path_to_the_where_you_want_the_result \
+  --opt o=bind \
+  output
+```
+```powershell
+# Windows Powershell
+docker volume create --driver local `
+  --opt type=none `
+  --opt device=your_path_to_story_formats `
+  --opt o=bind `
+  storyformats
+docker volume create --driver local `
+  --opt type=none `
+  --opt device=your_path_to_the_twee_files `
+  --opt o=bind `
+  input
+docker volume create --driver local `
+  --opt type=none `
+  --opt device=your_path_to_the_where_you_want_the_result `
+  --opt o=bind `
+  output
+```
 
-TODO: Honestly don't know what needs to go here.
+### Useful File Locations
+
+* `/bin/tweego` - tweego executable location, if you are in shell you can call it as a command `tweego`
 
 ## Find Us
 
-* [GitHub](https://github.com/twee-devs/tweego-docker)
+* [GitHub](https://github.com/twee-devs/)
 
 ## Contributing
 
@@ -103,3 +147,4 @@ This project is licensed under the Unlicense - see the [LICENSE.md](LICENSE.md) 
 
 * [Thomas M. Edwards](https://github.com/tmedwards) - Creater of Tweego and the story format Sugarcube.
 * [Chapel](https://github.com/ChapelR) - Twine ethusiast with a knack for creating useful things for authors.
+* [Twine Games Discord](https://discord.gg/n5dJvPp) - great place for all things Twine related.
