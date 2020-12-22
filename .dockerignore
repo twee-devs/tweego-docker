@@ -5,3 +5,4 @@ docs
 Dockerfile
 docker-compose.yml
 LICENSE
+*.ps1
