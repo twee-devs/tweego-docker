@@ -149,3 +149,5 @@ This project is licensed under the Unlicense - see the [LICENSE.md](LICENSE.md) 
 * [Chapel](https://github.com/ChapelR) - Twine ethusiast with a knack for creating useful things for authors.
 * [Twine Games Discord](https://discord.gg/n5dJvPp) - great place for all things Twine related.
 
+## Changelog
+TODO
