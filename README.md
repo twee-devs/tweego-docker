@@ -1,6 +1,6 @@
 # tweedevs/tweego
 
-[Tweego](https://github.com/tmedwards/tweego), is a command line compiler for Twine/Twee story formats, written in Go.
+[Tweego](https://github.com/tmedwards/tweego), is a command line compiler for Twine/Twee story formats, written in Go. Now on Docker!
 
 ## Supported Architectures
 
@@ -26,7 +26,7 @@ services:
     container_name: tweego
     environment: 
       # Optional: Default is index.html
-      - TWEEGO_OUTFILE=index.html
+      - TWEEGO_FILE=index.html
       # Optional: You can add any additional option https://www.motoslave.net/tweego/docs/#usage-options
       - TWEEGO_OPTIONS=-l --log-files
     volumes: 
@@ -50,11 +50,11 @@ docker run -it -rm \
 ```powershell
 # Windows Powershell
 docker run -it -rm `
-  -e TWEEGO_OUTFILE=your_file_name.html `
+  -e TWEEGO_FILE=your_file_name.html `
   -v your_path_to_story_formats:/storyformats `
   -v your_path_to_the_twee_files:/input `
   -v your_path_to_the_where_you_want_the_result:/output `
-  tweedevs/tweego
+  tweedevs/tweego # You can include options here to pass to tweego
 ```
 
 ### Getting into the shell
@@ -148,3 +148,4 @@ This project is licensed under the Unlicense - see the [LICENSE.md](LICENSE.md) 
 * [Thomas M. Edwards](https://github.com/tmedwards) - Creater of Tweego and the story format Sugarcube.
 * [Chapel](https://github.com/ChapelR) - Twine ethusiast with a knack for creating useful things for authors.
 * [Twine Games Discord](https://discord.gg/n5dJvPp) - great place for all things Twine related.
+
