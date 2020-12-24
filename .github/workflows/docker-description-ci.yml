@@ -1,0 +1,17 @@
+name: Docker Image CI
+
+on:
+  push:
+    paths: 'README.md'
+
+jobs:
+  multi:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: twee-devs/tweego-docker
