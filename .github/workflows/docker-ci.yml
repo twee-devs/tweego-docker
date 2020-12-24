@@ -33,4 +33,4 @@ jobs:
           push: true
           tags: |
             tweedevs/tweego:latest
-            tweedevs/tweego:$GITHUB_REF
+            tweedevs/tweego:${{ github.ref	}}
