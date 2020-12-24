@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: main
+    tags: 'v*'
 
 jobs:
   multi:
@@ -33,4 +33,4 @@ jobs:
           push: true
           tags: |
             tweedevs/tweego:latest
-            tweedevs/tweego:1.0.0
+            tweedevs/tweego:${{GITHUB_REF}}
