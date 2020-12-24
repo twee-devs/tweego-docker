@@ -2,7 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    paths: 'README.md'
+    paths: 
+      - 'README.md'
+      - '.github\workflows\docker-description-ci.yml'
 
 jobs:
   multi:
